@@ -14,9 +14,9 @@ if ($charttheme == 'light') {
   $ycrosshaircolor  = '#ff832f';
   $fontcolorsmall   = '#000';
 } else {
-  $backgroundcolor  = 'RGBA(37, 41, 45, 0.9)';
+  $backgroundcolor  = 'rgba(40, 45, 52,.4)';
   $fontcolor        = '#ccc';
-  $gridcolor        = 'RGBA(64, 65, 66, 0.8)';
+  $gridcolor        = 'rgba(64, 65, 66, 0.8)';
   $line1color       = 'rgba(255, 148, 82, 0.95)';
   $line2color       = '#00A4B4';
   $line2markercolor = '#007181';
