@@ -15,21 +15,21 @@
 	#   https://www.weather34.com 	                                                                   #
 	####################################################################################################
 	
-	include('chartslivedata.php');header('Content-type: text/html; charset=utf-8');
-	$conv = 1;
-	if ($uk == true && $windunit == 'mph') {$conv= '1';}	
-	else if ($windunit == 'mph'){$conv= '0.0393701';}
-	else if ($usa == true) {$conv= '0.0393701';}
-	else if ($usa == true && $windunit == 'mph') {$conv= '0.0393701';}
-	else if ($restoftheworld == true && $metric == 'true') {$conv= '1';}
-	else if ($restoftheworld == true && $metric == 'false') {$conv= '0.0393701';}
-	else if ($restoftheworld == true && $windunit == 'mph') {$conv= '0.0393701';}
-	else $conv;
-	$interval = 1;
-	if ($uk == true && $windunit == 'mph') {$interval= '1';}
-	else if ($windunit == 'mph') {$interval= '0.5';}
-	else if ($windunit == 'm/s') {$interval= '1';}
-	else if ($windunit == 'km/h'){$interval= '1';}
+	include('chartslivedata.php');include('./chart_theme.php');header('Content-type: text/html; charset=utf-8');
+	
+$conv = 1;
+	if ($rainunit == 'in') {
+		$conv = '0.0393701';
+	} else if ($rainunit == 'mm') {
+		$conv = '1';
+	}
+
+	if ($rainunit == 'mm'){
+		$raindecimal = '1';
+	} else {
+		$raindecimal = '2';
+	}
+
     echo '
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -85,29 +85,37 @@
 
 		function drawChart( dataPoints1 , dataPoints2 ) {
 		var chart = new CanvasJS.Chart("chartContainer2", {
-		 backgroundColor: "rgba(30, 33, 36, .4)",
-		 animationEnabled: false,
+		 backgroundColor: '<?php echo $backgroundcolor;?>',
+		 animationEnabled: true,
+      animationDuration: <?php echo $animationduration;?>,
 		 margin: 0,
 		
 		title: {
             text: " ",
 			fontSize: 0,
-			fontColor:' #555',
+			fontColor: '<?php echo $fontcolor;?>',
 			fontFamily: "arial",
         },
 		toolTip:{
 			   fontStyle: "normal",
 			   cornerRadius: 4,
-			   backgroundColor: "#fff",			   
-			   toolTipContent: " x: {x} y: {y} <br/> name: {name}, label:{label} ",
-			   shared: true, 
+			   backgroundColor: '<?php echo $backgroundcolor;?>',
+			   contentFormatter: function(e) {
+					var str = '<span style="color: <?php echo $fontcolor;?>;">' + e.entries[0].dataPoint.label + '</span><br/>';
+					for (var i = 0; i < e.entries.length; i++) {
+						var temp = '<span style="color: ' + e.entries[i].dataSeries.color + ';">' + e.entries[i].dataSeries.name + '</span> <span style="color: <?php echo $fontcolor;?>;">' + e.entries[i].dataPoint.y.toFixed(2) + "<?php echo ' '.$rainunit ;?>" + '</span> <br/>';
+						str = str.concat(temp);
+					}
+					return (str);
+				},
+				shared: true,
 			   
     
  },
 		axisX: {
-			gridColor: "#aaa",
-		    labelFontSize: 6,
-			labelFontColor:' #aaa',
+			gridColor: '<?php echo $gridcolor;?>',
+		    labelFontSize: 8,
+			labelFontColor: '<?php echo $fontcolorsmall;?>',
 			lineThickness: 0.5,
 			gridThickness: 1,	
 			titleFontFamily: "arial",	
@@ -115,12 +123,13 @@
 			gridDashType: "dot",
    			intervalType: "hour",
 			minimum:0,
+        margin: 5,
 			
 			},
 			
 		axisY:{
 		title: "",
-		titleFontColor: "#aaa",
+		titleFontColor: '<?php echo $fontcolor;?>',
 		titleFontSize: 6,
         titleWrap: false,
 		margin: 3,
@@ -129,28 +138,28 @@
 		gridThickness: 0,	
 		gridDashType: "dot",	
         includeZero: false,
-		gridColor: "#ff9350",
-		labelFontSize: 6,
-		labelFontColor:' #aaa',
+		gridColor: '<?php echo $gridcolor;?>',
+		labelFontSize: 8,
+		labelFontColor: '<?php echo $fontcolorsmall;?>',
 		titleFontFamily: "arial",
 		labelFontFamily: "arial",
 		labelFormatter: function ( e ) {
-         return e.value .toFixed(1) +"<?php echo $rainunit ;?>" ;  
+         return e.value .toFixed(<?php echo $raindecimal;?>) +" <?php echo $rainunit ;?>" ;  
          },		 
-		crosshair: {
-			enabled: true,
-			snapToDataPoint: true,
-			color: "#ff9350",
-			labelFontColor: "#fff",
-			labelFontSize:8,
-			labelBackgroundColor: "#d05f2d",
-			valueFormatString: "#0.#<?php echo $rainunit ;?>",
-		}	 
+// 		crosshair: {
+// 			enabled: true,
+// 			snapToDataPoint: true,
+// 			color: '<?php echo $xcrosshaircolor;?>',
+// 			labelFontColor: "#F8F8F8",
+// 			labelFontSize:8,
+// 			labelBackgroundColor: '<?php echo $xcrosshaircolor;?>',
+// 			valueFormatString: "#0.#<?php echo $rainunit ;?>",
+// 		}	 
       },
 	  
 	     axisY2:{
 		title: "",
-		titleFontColor: "#aaa",
+		titleFontColor: '<?php echo $fontcolor;?>',
 		titleFontSize: 8,
         titleWrap: false,
 		margin: 3,
@@ -160,28 +169,28 @@
 		gridThickness: 1,	
 		gridDashType: "dot",	
         includeZero: true,
-		gridColor: "#333",
-		labelFontSize: 6,
-		labelFontColor:' #aaa',
+		gridColor: '<?php echo $gridcolor;?>',
+		labelFontSize: 8,
+		labelFontColor: '<?php echo $fontcolorsmall;?>',
 		titleFontFamily: "arial",
 		labelFontFamily: "arial",
 		labelFormatter: function ( e ) {
-         return e.value .toFixed(1) + "<?php echo $rainunit ?>" ;  
+         return e.value .toFixed(<?php echo $raindecimal;?>) + " <?php echo $rainunit ?>" ;  
 		},
-		crosshair: {
-			enabled: true,
-			snapToDataPoint: true,
-			color: "#3b9cac",
-			labelFontColor: "#fff",
-			labelFontSize:12,
-			labelBackgroundColor: "#3b9cac",
-			valueFormatString: "# '<?php echo $rainunit ?>'",
-		}	 
+// 		crosshair: {
+// 			enabled: true,
+// 			snapToDataPoint: true,
+// 			color: '<?php echo $ycrosshaircolor;?>',
+// 			labelFontColor: '<?php echo $fontcolor;?>',
+// 			labelFontSize:12,
+// 			labelBackgroundColor: '<?php echo $ycrosshaircolor;?>',
+// 			valueFormatString: "#0.# '<?php echo $rainunit ?>'",
+// 		}	 
       },
 	  
 	  legend:{
       fontFamily: "arial",
-      fontColor:"#aaa",
+      fontColor: '<?php echo $fontcolor;?>',
   
  },
 		
@@ -189,31 +198,30 @@
 		
 		data: [
 		{
-			
-			type: "column",
-			color:"#3b9cac",
-			markerSize:0,
-			showInLegend:false,			
-			lineThickness: 1,
-			markerType: "circle",
-			name:"Rainfall",
-			dataPoints: dataPoints1,
-			yValueFormatString: "#0.#<?php echo $rainunit ;?>",
-			
+			type: "splineArea",
+				color: '<?php echo $line2color;?>',
+				markerSize:2,
+				markerColor: '<?php echo $line2markercolor;?>',
+				showInLegend:false,
+				lineThickness: 2,
+				//lineColor: '<?php echo $line2markercolor;?>',
+				markerType: "circle",
+				name:"Rainfall",
+				dataPoints: dataPoints1,
+				yValueFormatString: "#0.# <?php echo $rainunit ;?>",
 		},
 		{
-			type: "column",
-			color:"#cd5245",
-			markerSize:0,
-			showInLegend:false,			
-			axisYType: "secondary",
-			axisYIndex: 1,
-			lineThickness: 1,
-			markerType: "circle",
-			name:"Rain Rate",
-			dataPoints: dataPoints2,
-			yValueFormatString: "#0.#<?php echo $rainunit ;?>",
-			
+			type: "spline",
+			color: '<?php echo $line1color;?>',
+				markerSize:2,
+				showInLegend:false,
+				axisYType: "secondary",
+				axisYIndex: 2,
+				lineThickness: 2,
+				markerType: "circle",
+				name:"Rain Rate",
+				dataPoints: dataPoints2,
+				yValueFormatString: "#0.# <?php echo $rainunit ;?>",
 		}
 
 		]

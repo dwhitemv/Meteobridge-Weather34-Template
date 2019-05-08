@@ -15,18 +15,15 @@
 	#   http://www.weather34.com 	                                                                   #
 	####################################################################################################
 	
-	include('chartslivedata.php');header('Content-type: text/html; charset=utf-8');	
-	$conv = 1;
-	if ($uk == true) {$conv= '1';}
-	if ($units == 'uk' && $windunit == 'mph') {$conv= '1';}
-	else if ($windunit == 'mph') {$conv= '(1.8) +32';}
-	else if ($windunit == 'm/s') {$conv= '1';}
-	else if ($windunit == 'km/h'){$conv= '1';}
-	$interval = 1;
-	if ($uk == true && $windunit == 'mph') {$conv= '1';}
-	if ($windunit == 'mph') {$interval= '0.5';}
-	else if ($windunit == 'm/s') {$interval= '1';}
-	else if ($windunit == 'km/h'){$interval= '1';}
+	include('chartslivedata.php');include('./chart_theme.php');header('Content-type: text/html; charset=utf-8');	
+  if ($tempunit == 'F') {
+	  $conv = '(9 / 5) + 32';
+	} else {
+	  $conv = '1';
+	}
+
+	$interval = 'auto';
+	
     echo '
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -82,29 +79,37 @@
 
 		function drawChart( dataPoints1 , dataPoints2 ) {
 		var chart = new CanvasJS.Chart("chartContainer2", {
-		 backgroundColor: "rgba(30, 33, 36, .4)",
-		 animationEnabled: false,
+		 backgroundColor: '<?php echo $backgroundcolor;?>',
+		 animationEnabled: true,
+      animationDuration: <?php echo $animationduration;?>,
 		 margin: 0,
 		
 		title: {
             text: " ",
 			fontSize: 0,
-			fontColor:' #aaa',
+			fontColor: '<?php echo $fontcolor;?>',
 			fontFamily: "arial",
         },
 		toolTip:{
 			   fontStyle: "normal",
 			   cornerRadius: 4,
-			   backgroundColor: "#fff",			   
-			   toolTipContent: " x: {x} y: {y} <br/> name: {name}, label:{label} ",
-			   shared: true, 
+			   backgroundColor: '<?php echo $backgroundcolor;?>',
+			   contentFormatter: function(e) {
+      var str = '<span style="color: <?php echo $fontcolor;?>;">' + e.entries[0].dataPoint.label + '</span><br/>'; //font colors
+      for (var i = 0; i < e.entries.length; i++) {
+        var temp = '<span style="color: ' + e.entries[i].dataSeries.color + ';">' + e.entries[i].dataSeries.name + '</span> <span style="color: <?php echo $fontcolor;?>;">' + e.entries[i].dataPoint.y.toFixed(1) + "<?php echo ' °'.$tempunit ;?>" + '</span> <br/>';
+        str = str.concat(temp);
+      }
+      return (str);
+    },
+      shared: true,
 			   
     
  },
 		axisX: {
-			gridColor: "#333",
-		    labelFontSize: 6,
-			labelFontColor:' #aaa',
+			gridColor: '<?php echo $gridcolor;?>',
+		    labelFontSize: 8,
+			labelFontColor: '<?php echo $fontcolorsmall;?>',
 			lineThickness: 1,
 			gridThickness: 1,
 			gridDashType: "dot",	
@@ -113,20 +118,21 @@
 			interval: "auto",
    			intervalType: "hour",
 			minimum:0,
-			crosshair: {
-			enabled: true,
-			snapToDataPoint: true,
-			color: "#009bab",
-			labelFontColor: "#F8F8F8",
-			labelFontSize:6,
-			labelBackgroundColor: "#009bab",
-		}
+        margin: 5,
+// 			crosshair: {
+// 			enabled: true,
+// 			snapToDataPoint: true,
+// 			color: '<?php echo $xcrosshaircolor;?>',
+// 			labelFontColor: "#F8F8F8",
+// 			labelFontSize:6,
+// 			labelBackgroundColor: '<?php echo $xcrosshaircolor;?>',
+// 		}
 			
 			},
 			
 		axisY:{
 		title: "",
-		titleFontColor: "#aaa",
+		titleFontColor: '<?php echo $fontcolor;?>',
 		titleFontSize: 8,
         titleWrap: false,
 		margin: 3,
@@ -136,28 +142,28 @@
 		gridThickness: 1,	
 		gridDashType: "dot",	
         includeZero: false,
-		gridColor: "#333",
-		labelFontSize: 7,
-		labelFontColor:' #aaa',
+		gridColor: '<?php echo $gridcolor;?>',
+		labelFontSize: 8,
+		labelFontColor: '<?php echo $fontcolorsmall;?>',
 		titleFontFamily: "arial",
 		labelFontFamily: "arial",
 		labelFormatter: function ( e ) {
         return e.value .toFixed(0) + " °" ;  
          },		 
-		crosshair: {
-			enabled: true,
-			snapToDataPoint: true,
-			color: "#ff832f",
-			labelFontColor: "#fff",
-			labelFontSize:8,
-			labelBackgroundColor: "#ff832f",
-			valueFormatString: "#0.# °<?php echo $tempunit ;?>",
-		}	 
+// 		crosshair: {
+// 			enabled: true,
+// 			snapToDataPoint: true,
+// 			color: '<?php echo $ycrosshaircolor;?>',
+// 			labelFontColor: "#fff",
+// 			labelFontSize:8,
+// 			labelBackgroundColor: '<?php echo $ycrosshaircolor;?>'",
+// 			valueFormatString: "#0 °<?php echo $tempunit ;?>",
+// 		}	 
       },
 	  
 	  legend:{
       fontFamily: "arial",
-      fontColor:"#aaa",
+      fontColor: '<?php echo $fontcolor;?>',
   
  },
 		
@@ -165,9 +171,9 @@
 		data: [
 		{
 			type: "splineArea",
-			color:"#ff832f",
-			markerSize:0,
-			showInLegend:false,
+			color: '<?php echo $line1color;?>',
+			markerSize: 0,
+			showInLegend: false,
 			legendMarkerType: "circle",
 			lineThickness: 0,
 			markerType: "circle",
@@ -178,11 +184,13 @@
 		},
 		{
 			type: "splineArea",
-			color:"#00A4B4",
-			markerSize:0,
-			showInLegend:false,
+			color: '<?php echo $line2color;?>', //line2color
+			markerSize: 0,
+			markerColor: '<?php echo $line2markercolor;?>', //line2markercolor
+			showInLegend: false,
 			legendMarkerType: "circle",
 			lineThickness: 0,
+			lineColor: '<?php echo $line2markercolor;?>',
 			markerType: "circle",
 			name:" DewPoint",
 			dataPoints: dataPoints2,
