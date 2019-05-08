@@ -103,7 +103,7 @@ darkskywindspeed {
 .darkskydiv {
   position: relative;
   width: 725px;
-  overflow: hidden!important;
+  overflow: hidden !important;
   height: 378px;
   float: none;
   margin-left: -5px;
@@ -131,7 +131,7 @@ darkskywindspeed {
   background: -moz-linear-gradient(to bottom, rgba(97, 106, 114, 1) 12%, rgba(29, 32, 34, 0) 11%, rgba(29, 32, 34, 0) 100%, rgba(229, 77, 11, 0) 0);
   background: -o-linear-gradient(to bottom, rgba(97, 106, 114, 1) 12%, rgba(29, 32, 34, 0) 11%, rgba(29, 32, 34, 0) 100%, rgba(229, 77, 11, 0) 0);
   color: silver;
-  overflow: hidden!important;
+  overflow: hidden !important;
   border: 1px solid #333;
   border-bottom: solid 1px #333;
   border-top: 1px solid #333
@@ -365,7 +365,7 @@ a {
 }
 
 a {
-  text-decoration: none!important
+  text-decoration: none !important
 }
 
 .forecastupdated {

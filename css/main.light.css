@@ -2033,6 +2033,7 @@ a:hover {
     font-family: arial, system;
     overflow: hidden
   }
+
   .almanacpopup,
   .a,
   .chart,
@@ -2041,12 +2042,14 @@ a:hover {
   header {
     display: none
   }
+
   .weather-item {
     float: none;
     width: 310px;
     margin: 10px auto 0;
     overflow: hidden
   }
+
   #icon {
     width: 55px;
     height: 43px;
@@ -2054,6 +2057,7 @@ a:hover {
     padding: 5px;
     margin: 0 0 0 10px
   }
+
   .c {
     width: auto;
     left: 40px;
@@ -3556,6 +3560,7 @@ tsteady {
     display: block;
     height: 0
   }
+
   .almanacpopup,
   .clock-container,
   .homeindoordate,
@@ -3566,6 +3571,7 @@ tsteady {
   ogreyh1 {
     display: none
   }
+
   .newweather34menu {
     width: 30px;
     height: 24px;
@@ -3584,6 +3590,7 @@ tsteady {
     display: block;
     height: 0
   }
+
   .almanacpopup,
   .clock-container,
   .homeindoordate,
@@ -3594,6 +3601,7 @@ tsteady {
   ogreyh1 {
     display: none
   }
+
   .newweather34menu {
     width: 30px;
     height: 24px;
@@ -4591,9 +4599,11 @@ chartinfocolor {
   0% {
     opacity: 2
   }
+
   50% {
     opacity: 1
   }
+
   100% {
     opacity: 0
   }
@@ -4603,9 +4613,11 @@ chartinfocolor {
   0% {
     opacity: 2
   }
+
   50% {
     opacity: 1
   }
+
   100% {
     opacity: 0
   }
@@ -6046,6 +6058,7 @@ weather34windrunspan {
 
 .beaufort1 {
   margin-left: 0;
+  font-size: .55rem;
   border: 0;
   border-radius: 4px;
   color: #2d3a4b
@@ -9014,9 +9027,11 @@ weather34menumarkerlight {
     display: inline;
     background: 0
   }
+
   .weather34btn {
     background-color: 0;
   }
+
   .weather34toolbar {
     display: flex;
     flex: 1;
@@ -9025,6 +9040,7 @@ weather34menumarkerlight {
     padding: 0 var(--spacing);
     height: 30px;
   }
+
   .weather34btn--primary {
     color: silver;
     background-color: 0;
@@ -9033,6 +9049,7 @@ weather34menumarkerlight {
     padding: 0;
     color: silver;
   }
+
   .weather34admin__header {
     display: flex;
     flex-basis: 100%;
@@ -9042,22 +9059,27 @@ weather34menumarkerlight {
     position: absolute;
     font-size: 12px;
   }
+
   .weather34btn--primary a {
     color: silver;
     font-size: 0.85em;
     font-weight: 500;
     color: silver;
   }
+
   weather34toptitle {
     display: none
   }
+
   weather34mbuptime {
     top: 10px
   }
+
   .weather-item {
     margin-top: 32px;
     margin-bottom: -28px
   }
+
   .weather34themeicon {
     position: absolute;
     margin: 0;
@@ -9065,16 +9087,19 @@ weather34menumarkerlight {
     top: 0px;
     max-height: 12px
   }
+
   .weather34thememonitor {
     width: 15px;
     height: 11px;
     background: #ff832f;
     border-radius: 2px
   }
+
   .weather34thememonitor li {
     position: absolute;
     list-style: none
   }
+
   .weather34thememonitor .weather34themefirst {
     width: 13px;
     height: 8px;
@@ -9083,6 +9108,7 @@ weather34menumarkerlight {
     left: 1px;
     z-index: 3
   }
+
   .weather34sidebarIconToggle {
     cursor: pointer;
     position: absolute;
@@ -9300,7 +9326,8 @@ weather34menumarkerlight {
   height: 98%;
   -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-  background: rgba(33, 36, 40, 1.000);
+  background: rgba(30, 33, 36, 1.000);
+  background: linear-gradient(135deg, #212428 0%, #2f363f 100%);
   align-items: center;
   justify-content: center;
   text-align: center;
